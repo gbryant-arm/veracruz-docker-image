@@ -121,6 +121,7 @@ SHELL ["/bin/bash", "-c"]
 # add the arm64 source
 COPY patch/sources.list /etc/apt/ 
 COPY cleanup.sh /cleanup.sh
+USER root
 RUN dpkg --add-architecture arm64
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -243,7 +244,7 @@ USER $USER
 # Install qemu toolchains and openssl
 WORKDIR /work/rust-optee-trustzone-sdk/optee-qemuv8-3.7.0/build
 USER root
-RUN chown -R $USER /work/rust-optee-trustzone-sdk/optee-qemuv8-3.7.0
+RUN chown -R $USER:$USER /work/rust-optee-trustzone-sdk/optee-qemuv8-3.7.0
 USER $USER
 RUN mkdir /work/rust-optee-trustzone-sdk/optee-qemuv8-3.7.0 -p \
     && cd /work/rust-optee-trustzone-sdk/optee-qemuv8-3.7.0 \
